@@ -1,0 +1,22 @@
+<RCC>
+    <qresource prefix="/img">
+        <file>img/Preview_Dynamic_BottomLeft.png</file>
+        <file>img/Preview_Dynamic_RightEdgeBottom.png</file>
+        <file>img/Preview_Dynamic_RightEdgeCenter.png</file>
+        <file>img/Preview_Dynamic_RightEdgeTop.png</file>
+        <file>img/Preview_Dynamic_TopLeft.png</file>
+        <file>img/Preview_Fixed_BottomLeft.png</file>
+        <file>img/Preview_Fixed_TopLeft.png</file>
+        <file>img/Settings.png</file>
+        <file>img/Clipboard.png</file>
+        <file>img/Close.png</file>
+        <file>img/Help.png</file>
+        <file>img/Window.png</file>
+        <file>img/Text_Orientation_Auto.png</file>
+        <file>img/Text_Orientation_Horiz.png</file>
+        <file>img/Text_Orientation_Vert.png</file>
+        <file>img/Logo.png</file>
+        <file>img/TrayExampleWithArrow.png</file>
+        <file>img/Default_Capture_Hotkey.png</file>
+    </qresource>
+</RCC>

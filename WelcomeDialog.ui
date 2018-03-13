@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>WelcomeDialog</class>
+ <widget class="QDialog" name="WelcomeDialog">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>453</width>
+    <height>408</height>
+   </rect>
+  </property>
+  <property name="font">
+   <font>
+    <pointsize>8</pointsize>
+   </font>
+  </property>
+  <property name="windowTitle">
+   <string>Welcome to Capture2Text</string>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout">
+   <item>
+    <widget class="QLabel" name="labelHello">
+     <property name="text">
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Hello, this appears to be your first time running Capture2Text. &lt;/p&gt;&lt;p&gt;Capture2Text is operated though the use of hotkeys (ie. keyboard shortcuts). &lt;/p&gt;&lt;p&gt;It is recommended that you familiarize yourself with the hotkeys and other settings by right-clicking the Capture2Text icon in the bottom-right corner and selecting &amp;quot;Settings...&amp;quot; from the menu or by browsing through the &lt;a href=&quot;none&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#007af4;&quot;&gt;documentation&lt;/span&gt;&lt;/a&gt;. &lt;/p&gt;&lt;p align=&quot;center&quot;&gt;&lt;img src=&quot;qrc:/img/img/TrayExampleWithArrow.png&quot;/&gt;&lt;/p&gt;&lt;p&gt;To get you started, the default hotkey for performing an OCR capture is: &lt;/p&gt;&lt;p align=&quot;center&quot;&gt;&lt;img src=&quot;qrc:/img/img/Default_Capture_Hotkey.png&quot;/&gt;&lt;br /&gt;(Windows Key + Q)&lt;/p&gt;&lt;p&gt;Once the capture has started, position the capture box over the desired text and press the left-mouse button (or press the hotkey again or ENTER). To move the entire capture box, hold down the right-mouse button and drag. To cancel a capture, press ESC.&lt;/p&gt;&lt;p&gt;Thank you!&lt;/p&gt;&lt;p&gt;(This message will not appear again) &lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+     </property>
+     <property name="wordWrap">
+      <bool>true</bool>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QDialogButtonBox" name="buttonBox">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="standardButtons">
+      <set>QDialogButtonBox::Ok</set>
+     </property>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections>
+  <connection>
+   <sender>buttonBox</sender>
+   <signal>accepted()</signal>
+   <receiver>WelcomeDialog</receiver>
+   <slot>accept()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>248</x>
+     <y>254</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>157</x>
+     <y>274</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>buttonBox</sender>
+   <signal>rejected()</signal>
+   <receiver>WelcomeDialog</receiver>
+   <slot>reject()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>316</x>
+     <y>260</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>286</x>
+     <y>274</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+</ui>
