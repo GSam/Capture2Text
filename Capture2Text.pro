@@ -1,3 +1,4 @@
+CONFIG += console
 
 QT += core
 
