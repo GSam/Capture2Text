@@ -109,15 +109,16 @@ HEADERS  += \
         WelcomeDialog.ui
 }
 
-INCLUDEPATH += E:\Dev\cpp\Tess4\tesseract\api
-INCLUDEPATH += E:\Dev\cpp\Tess4\tesseract\ccmain
-INCLUDEPATH += E:\Dev\cpp\Tess4\tesseract\ccstruct
-INCLUDEPATH += E:\Dev\cpp\Tess4\tesseract\ccutil
-INCLUDEPATH += E:\Dev\cpp\Leptonica_1.74.4\src
 
 # Linux Paths
 INCLUDEPATH += /usr/include/tesseract/
 INCLUDEPATH += /usr/include/leptonica/
+
+# INCLUDEPATH += E:\Dev\cpp\Tess4\tesseract\api
+# INCLUDEPATH += E:\Dev\cpp\Tess4\tesseract\ccmain
+# INCLUDEPATH += E:\Dev\cpp\Tess4\tesseract\ccstruct
+# INCLUDEPATH += E:\Dev\cpp\Tess4\tesseract\ccutil
+# INCLUDEPATH += E:\Dev\cpp\Leptonica_1.74.4\src
 
 # Tesseract and Leptonica
 bits32 {
