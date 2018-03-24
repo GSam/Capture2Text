@@ -114,6 +114,10 @@ INCLUDEPATH += E:\Dev\cpp\Tess4\tesseract\ccstruct
 INCLUDEPATH += E:\Dev\cpp\Tess4\tesseract\ccutil
 INCLUDEPATH += E:\Dev\cpp\Leptonica_1.74.4\src
 
+# Linux Paths
+INCLUDEPATH += /usr/include/tesseract/
+INCLUDEPATH += /usr/include/leptonica/
+
 # Tesseract and Leptonica
 bits32 {
     # 32-bit
@@ -135,8 +139,11 @@ bits32 {
 }
 
 
-LIBS += -lpvt.cppan.demo.danbloomberg.leptonica-1.74.4
-LIBS += -luser32
+# LIBS += -lpvt.cppan.demo.danbloomberg.leptonica-1.74.4
+# LIBS += -luser32
+
+LIBS += -ltesseract
+LIBS += -llept
 
 !console {
     RESOURCES += \
