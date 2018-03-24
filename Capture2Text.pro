@@ -1,3 +1,4 @@
+# Linux can only compiler the console version
 CONFIG += console
 
 QT += core
