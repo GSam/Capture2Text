@@ -22,10 +22,12 @@ TEMPLATE = app
 DEFINES += QT_DEPRECATED_WARNINGS
 
 # Disable warning: C4305: 'initializing': truncation from 'double' to 'l_float32'
-QMAKE_CXXFLAGS += /wd4305
+# QMAKE_CXXFLAGS += /wd4305
 
 # Disable warning: C4099: 'ETEXT_DESC': type name first seen using 'class' now seen using 'struct'
-QMAKE_CXXFLAGS += /wd4099
+# QMAKE_CXXFLAGS += /wd4099
+
+QMAKE_CXXFLAGS += -std=c++11
 
 console {
     DEFINES += CLI_BUILD
