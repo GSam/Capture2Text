@@ -6,3 +6,4 @@ The OCR results from Capture2Text were generally better than standard Tesseract,
 ## TODO
 * Make the build file more generic, so as to be able to build on Windows still
 * Add some additional instructions on packages to install and how to build
+* Figure out how to avoid `-platform offscreen` for the command line (over SSH)
