@@ -1,5 +1,5 @@
 # Capture2Text
-Linux CLI port of Capture2Text v4.5.1
+Linux CLI port of Capture2Text v4.5.1 (Ubuntu)
 
 The OCR results from Capture2Text were generally better than standard Tesseract, so it seemed ideal to make this run on Linux. It turns out the console version can actually run without anything more than build changes.
 
