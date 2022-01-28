@@ -48,9 +48,17 @@ QString PostProcess::postProcessOcrText(QString text)
 
     text = text.trimmed();
 
+    // Replace nuisance ligatures
+    text.replace("ﬁ", "fi");
+    text.replace("ﬂ", "fl");
+
     for(auto item : replacementList)
     {
-        text.replace(QRegularExpression(item.from), item.to);
+        QString to(item.to);
+        to.replace("\\t", "\t");
+        to.replace("\\r", "\r");
+        to.replace("\\n", "\n");
+        text.replace(QRegularExpression(item.from), to);
     }
 
     return text;

@@ -909,7 +909,8 @@ void MainWindow::outputOcrText(QString text)
 
     if((Settings::getTranslateAddToClipboard()
            || Settings::getTranslateAddToPopup()
-           || (Settings::getOutputLogFileEnable() && Settings::getOutputLogFormat().contains("${translation}")))
+           || (Settings::getOutputLogFileEnable() && Settings::getOutputLogFormat().contains("${translation}"))
+           || (Settings::getOutputCallExeEnable() && Settings::getOutputCallExe().contains("${translation}")))
         && ocrLang != "None" && translateLang != "<Do Not Translate>")
     {
         if(!translate.startTranslate(text, ocrLang, translateLang, Settings::getTranslateServerTimeout()))
@@ -963,15 +964,22 @@ void MainWindow::outputOcrTextPhase2(QString text, QString translation)
 
     if(Settings::getOutputLogFileEnable())
     {
-        QFile logFile(Settings::getOutputLogFile());
+        UtilsCommon::writeTextFile(Settings::getOutputLogFile(),
+                                   UtilsCommon::formatLogLine(Settings::getOutputLogFormat(), text, captureTimestamp, translation, ""),
+                                   true);
+    }
 
-        if (logFile.open(QIODevice::WriteOnly | QIODevice::Append | QIODevice::Text))
+    if(Settings::getOutputCallExeEnable())
+    {
+        QString action = Settings::getOutputCallExe();
+
+        if(!action.isEmpty())
         {
-            QTextStream stream(&logFile);
-            stream.setCodec("UTF-8");
-            stream.setGenerateByteOrderMark(true);
-            stream << UtilsCommon::formatLogLine(Settings::getOutputLogFormat(), text, captureTimestamp, translation, "");
-            logFile.close();
+            action.replace("${capture}", text);
+            action.replace("${translation}", translation);
+            action.replace("${timestamp}", UtilsCommon::timestampToStr(captureTimestamp));
+
+            QProcess::startDetached(action);
         }
     }
 }

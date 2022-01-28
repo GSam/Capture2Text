@@ -6,9 +6,15 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>593</width>
-    <height>461</height>
+    <width>679</width>
+    <height>477</height>
    </rect>
+  </property>
+  <property name="sizePolicy">
+   <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+    <horstretch>0</horstretch>
+    <verstretch>0</verstretch>
+   </sizepolicy>
   </property>
   <property name="windowTitle">
    <string>Capture2Text - Settings</string>
@@ -18,18 +24,50 @@
     <normaloff>img/Logo.png</normaloff>img/Logo.png</iconset>
   </property>
   <layout class="QGridLayout" name="gridLayout">
-   <item row="1" column="0">
-    <widget class="QTabWidget" name="tabWidget">
+   <item row="0" column="0">
+    <widget class="QListWidget" name="listWidgetTabs">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="MinimumExpanding" vsizetype="Expanding">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>100</width>
+       <height>16777215</height>
+      </size>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="0" colspan="2">
+    <widget class="QDialogButtonBox" name="buttonBox">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="standardButtons">
+      <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
+     </property>
+    </widget>
+   </item>
+   <item row="0" column="1">
+    <widget class="QStackedWidget" name="stackedWidget">
      <property name="currentIndex">
-      <number>0</number>
+      <number>5</number>
      </property>
      <widget class="QWidget" name="tabHotkeys">
-      <attribute name="title">
-       <string>Hotkeys</string>
-      </attribute>
       <layout class="QGridLayout" name="gridLayout_11">
+       <property name="leftMargin">
+        <number>5</number>
+       </property>
        <property name="topMargin">
-        <number>9</number>
+        <number>0</number>
+       </property>
+       <property name="rightMargin">
+        <number>0</number>
+       </property>
+       <property name="bottomMargin">
+        <number>0</number>
        </property>
        <property name="verticalSpacing">
         <number>3</number>
@@ -213,10 +251,92 @@
       </layout>
      </widget>
      <widget class="QWidget" name="tabOcrLanguage">
-      <attribute name="title">
-       <string>OCR 1</string>
-      </attribute>
       <layout class="QGridLayout" name="gridLayout_6">
+       <property name="leftMargin">
+        <number>5</number>
+       </property>
+       <property name="topMargin">
+        <number>0</number>
+       </property>
+       <property name="rightMargin">
+        <number>0</number>
+       </property>
+       <property name="bottomMargin">
+        <number>0</number>
+       </property>
+       <item row="0" column="0">
+        <widget class="QGroupBox" name="groupBoxOcrCurrentLang">
+         <property name="title">
+          <string>Current OCR Language</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+         </property>
+         <property name="checkable">
+          <bool>false</bool>
+         </property>
+         <layout class="QVBoxLayout" name="verticalLayout_5">
+          <item>
+           <widget class="QComboBox" name="comboBoxOcrCurrentLang"/>
+          </item>
+          <item>
+           <widget class="QLabel" name="labelOcrAdditionalLang">
+            <property name="text">
+             <string>&lt;a href=&quot;none&quot;&gt;Additional Languages...&lt;/a&gt;</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item row="1" column="0" rowspan="2">
+        <widget class="QGroupBox" name="groupBoxOcrQuickAccess">
+         <property name="title">
+          <string>Quick-Access Languages</string>
+         </property>
+         <layout class="QFormLayout" name="formLayout_3">
+          <item row="0" column="0">
+           <widget class="QLabel" name="labelOcrQuickAccess1">
+            <property name="toolTip">
+             <string>Corresponds with the &quot;Quick-Access Language 1&quot; hotkey.</string>
+            </property>
+            <property name="text">
+             <string>Slot 1:</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="1">
+           <widget class="QComboBox" name="comboBoxOcrQuickAccess1"/>
+          </item>
+          <item row="1" column="0">
+           <widget class="QLabel" name="labelOcrQuickAccess2">
+            <property name="toolTip">
+             <string>Corresponds with the &quot;Quick-Access Language 2&quot; hotkey.</string>
+            </property>
+            <property name="text">
+             <string>Slot 2:</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="1">
+           <widget class="QComboBox" name="comboBoxOcrQuickAccess2"/>
+          </item>
+          <item row="2" column="0">
+           <widget class="QLabel" name="labelOcrQuickAccess3">
+            <property name="toolTip">
+             <string>Corresponds with the &quot;Quick-Access Language 3&quot; hotkey.</string>
+            </property>
+            <property name="text">
+             <string>Slot 3:</string>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="1">
+           <widget class="QComboBox" name="comboBoxOcrQuickAccess3"/>
+          </item>
+         </layout>
+        </widget>
+       </item>
        <item row="0" column="2">
         <widget class="QGroupBox" name="groupBoxOcrWhiteList">
          <property name="title">
@@ -337,83 +457,13 @@
          </layout>
         </widget>
        </item>
-       <item row="0" column="0">
-        <widget class="QGroupBox" name="groupBoxOcrCurrentLang">
-         <property name="title">
-          <string>Current OCR Language</string>
-         </property>
-         <property name="alignment">
-          <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
-         </property>
-         <property name="checkable">
-          <bool>false</bool>
-         </property>
-         <layout class="QVBoxLayout" name="verticalLayout_5">
-          <item>
-           <widget class="QComboBox" name="comboBoxOcrCurrentLang"/>
-          </item>
-          <item>
-           <widget class="QLabel" name="labelOcrAdditionalLang">
-            <property name="text">
-             <string>&lt;a href=&quot;none&quot;&gt;Additional Languages...&lt;/a&gt;</string>
-            </property>
-           </widget>
-          </item>
-         </layout>
-        </widget>
-       </item>
-       <item row="1" column="0" rowspan="2">
-        <widget class="QGroupBox" name="groupBoxOcrQuickAccess">
-         <property name="title">
-          <string>Quick-Access Languages</string>
-         </property>
-         <layout class="QFormLayout" name="formLayout_3">
-          <item row="0" column="0">
-           <widget class="QLabel" name="labelOcrQuickAccess1">
-            <property name="toolTip">
-             <string>Corresponds with the &quot;Quick-Access Language 1&quot; hotkey.</string>
-            </property>
-            <property name="text">
-             <string>Slot 1:</string>
-            </property>
-           </widget>
-          </item>
-          <item row="0" column="1">
-           <widget class="QComboBox" name="comboBoxOcrQuickAccess1"/>
-          </item>
-          <item row="1" column="0">
-           <widget class="QLabel" name="labelOcrQuickAccess2">
-            <property name="toolTip">
-             <string>Corresponds with the &quot;Quick-Access Language 2&quot; hotkey.</string>
-            </property>
-            <property name="text">
-             <string>Slot 2:</string>
-            </property>
-           </widget>
-          </item>
-          <item row="1" column="1">
-           <widget class="QComboBox" name="comboBoxOcrQuickAccess2"/>
-          </item>
-          <item row="2" column="0">
-           <widget class="QLabel" name="labelOcrQuickAccess3">
-            <property name="toolTip">
-             <string>Corresponds with the &quot;Quick-Access Language 3&quot; hotkey.</string>
-            </property>
-            <property name="text">
-             <string>Slot 3:</string>
-            </property>
-           </widget>
-          </item>
-          <item row="2" column="1">
-           <widget class="QComboBox" name="comboBoxOcrQuickAccess3"/>
-          </item>
-         </layout>
-        </widget>
-       </item>
        <item row="3" column="0">
         <spacer name="verticalSpacer_2">
          <property name="orientation">
           <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeType">
+          <enum>QSizePolicy::Expanding</enum>
          </property>
          <property name="sizeHint" stdset="0">
           <size>
@@ -610,10 +660,19 @@
       </layout>
      </widget>
      <widget class="QWidget" name="tabOcrOptions">
-      <attribute name="title">
-       <string>OCR 2</string>
-      </attribute>
       <layout class="QGridLayout" name="gridLayout_9">
+       <property name="leftMargin">
+        <number>5</number>
+       </property>
+       <property name="topMargin">
+        <number>0</number>
+       </property>
+       <property name="rightMargin">
+        <number>0</number>
+       </property>
+       <property name="bottomMargin">
+        <number>0</number>
+       </property>
        <item row="0" column="3">
         <spacer name="horizontalSpacer_13">
          <property name="orientation">
@@ -1025,10 +1084,19 @@
       </layout>
      </widget>
      <widget class="QWidget" name="tabCaptureBox">
-      <attribute name="title">
-       <string>Capture Box</string>
-      </attribute>
       <layout class="QVBoxLayout" name="verticalLayout_3">
+       <property name="leftMargin">
+        <number>5</number>
+       </property>
+       <property name="topMargin">
+        <number>0</number>
+       </property>
+       <property name="rightMargin">
+        <number>0</number>
+       </property>
+       <property name="bottomMargin">
+        <number>0</number>
+       </property>
        <item>
         <layout class="QHBoxLayout" name="horizontalLayout">
          <item>
@@ -1109,10 +1177,19 @@
       </layout>
      </widget>
      <widget class="QWidget" name="tabPreview">
-      <attribute name="title">
-       <string>Preview</string>
-      </attribute>
       <layout class="QGridLayout" name="gridLayout_5">
+       <property name="leftMargin">
+        <number>5</number>
+       </property>
+       <property name="topMargin">
+        <number>0</number>
+       </property>
+       <property name="rightMargin">
+        <number>0</number>
+       </property>
+       <property name="bottomMargin">
+        <number>0</number>
+       </property>
        <item row="4" column="0">
         <widget class="SampleBox" name="samplePreviewBox" native="true">
          <property name="sizePolicy">
@@ -1256,10 +1333,22 @@
       </layout>
      </widget>
      <widget class="QWidget" name="tabOutput">
-      <attribute name="title">
-       <string>Output</string>
-      </attribute>
-      <layout class="QFormLayout" name="formLayout_8">
+      <layout class="QGridLayout" name="gridLayout_13">
+       <property name="leftMargin">
+        <number>5</number>
+       </property>
+       <property name="topMargin">
+        <number>0</number>
+       </property>
+       <property name="rightMargin">
+        <number>0</number>
+       </property>
+       <property name="bottomMargin">
+        <number>0</number>
+       </property>
+       <property name="horizontalSpacing">
+        <number>0</number>
+       </property>
        <item row="0" column="0">
         <widget class="QCheckBox" name="checkBoxOutputClipboard">
          <property name="toolTip">
@@ -1267,6 +1356,16 @@
          </property>
          <property name="text">
           <string>Save to clipboard</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="0">
+        <widget class="QCheckBox" name="checkBoxOutputKeepLineBreaks">
+         <property name="toolTip">
+          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Check this option if you don't want carriage returns and line feeds to be stripped from the captured text.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         </property>
+         <property name="text">
+          <string>Keep line breaks</string>
          </property>
         </widget>
        </item>
@@ -1280,17 +1379,14 @@
          </property>
         </widget>
        </item>
-       <item row="2" column="0">
-        <widget class="QCheckBox" name="checkBoxOutputKeepLineBreaks">
-         <property name="toolTip">
-          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Check this option if you don't want carriage returns and line feeds to be stripped from the captured text.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-         </property>
+       <item row="7" column="0">
+        <widget class="QLabel" name="labelOutputReset">
          <property name="text">
-          <string>Keep lines breaks</string>
+          <string>&lt;a href=&quot;none&quot;&gt;Reset to defaults&lt;/a&gt;</string>
          </property>
         </widget>
        </item>
-       <item row="3" column="0" colspan="2">
+       <item row="3" column="0">
         <widget class="QGroupBox" name="groupBoxLogging">
          <property name="title">
           <string>Logging</string>
@@ -1357,8 +1453,14 @@ ${capture}${linebreak}-----------${linebreak}
          </layout>
         </widget>
        </item>
-       <item row="4" column="0" colspan="2">
+       <item row="4" column="0">
         <widget class="QGroupBox" name="groupBoxOutputDebug">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
          <property name="title">
           <string>Debug</string>
          </property>
@@ -1406,7 +1508,39 @@ ${capture}${linebreak}-----------${linebreak}
          </layout>
         </widget>
        </item>
-       <item row="5" column="1">
+       <item row="5" column="0">
+        <widget class="QGroupBox" name="groupBoxOutputCallExeEnable">
+         <property name="title">
+          <string>Call Executable</string>
+         </property>
+         <layout class="QGridLayout" name="gridLayout_15">
+          <item row="0" column="0">
+           <widget class="QCheckBox" name="checkBoxOutputCallExeEnable">
+            <property name="toolTip">
+             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;
+Enable/disable call to the provided executable.
+&lt;br/&gt;&lt;br/&gt;
+You may include the following tokens:&lt;br/&gt;
+${capture}&lt;br/&gt;
+${timestamp}&lt;br/&gt;
+${translation}
+&lt;br/&gt;&lt;br/&gt;
+Example calling a Python script:&lt;br/&gt;
+python.exe &quot;C:\Scripts\test.py&quot; &quot;${capture}&quot; &quot;${translation}&quot;
+&lt;/body&gt;&lt;/html&gt;</string>
+            </property>
+            <property name="text">
+             <string>Enable</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="1">
+           <widget class="QLineEdit" name="lineEditOutputCallExe"/>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item row="6" column="0">
         <spacer name="verticalSpacer_4">
          <property name="orientation">
           <enum>Qt::Vertical</enum>
@@ -1419,20 +1553,22 @@ ${capture}${linebreak}-----------${linebreak}
          </property>
         </spacer>
        </item>
-       <item row="6" column="0">
-        <widget class="QLabel" name="labelOutputReset">
-         <property name="text">
-          <string>&lt;a href=&quot;none&quot;&gt;Reset to defaults&lt;/a&gt;</string>
-         </property>
-        </widget>
-       </item>
       </layout>
      </widget>
      <widget class="QWidget" name="tabReplace">
-      <attribute name="title">
-       <string>Replace</string>
-      </attribute>
       <layout class="QGridLayout" name="gridLayout_7">
+       <property name="leftMargin">
+        <number>5</number>
+       </property>
+       <property name="topMargin">
+        <number>0</number>
+       </property>
+       <property name="rightMargin">
+        <number>0</number>
+       </property>
+       <property name="bottomMargin">
+        <number>0</number>
+       </property>
        <item row="1" column="0">
         <widget class="QTableWidget" name="tableWidgetReplace">
          <property name="alternatingRowColors">
@@ -1541,10 +1677,19 @@ ${capture}${linebreak}-----------${linebreak}
       </layout>
      </widget>
      <widget class="QWidget" name="tabTranslate">
-      <attribute name="title">
-       <string>Translate</string>
-      </attribute>
       <layout class="QGridLayout" name="gridLayout_4">
+       <property name="leftMargin">
+        <number>5</number>
+       </property>
+       <property name="topMargin">
+        <number>0</number>
+       </property>
+       <property name="rightMargin">
+        <number>0</number>
+       </property>
+       <property name="bottomMargin">
+        <number>0</number>
+       </property>
        <item row="0" column="0">
         <widget class="QCheckBox" name="checkBoxTranslateClipboard">
          <property name="toolTip">
@@ -1672,10 +1817,19 @@ ${capture}${linebreak}-----------${linebreak}
       </layout>
      </widget>
      <widget class="QWidget" name="tabSpeech">
-      <attribute name="title">
-       <string>Speech</string>
-      </attribute>
       <layout class="QVBoxLayout" name="verticalLayout">
+       <property name="leftMargin">
+        <number>5</number>
+       </property>
+       <property name="topMargin">
+        <number>0</number>
+       </property>
+       <property name="rightMargin">
+        <number>0</number>
+       </property>
+       <property name="bottomMargin">
+        <number>0</number>
+       </property>
        <item>
         <widget class="QCheckBox" name="checkBoxSpeechEnable">
          <property name="toolTip">
@@ -1946,16 +2100,6 @@ ${capture}${linebreak}-----------${linebreak}
        </item>
       </layout>
      </widget>
-    </widget>
-   </item>
-   <item row="2" column="0">
-    <widget class="QDialogButtonBox" name="buttonBox">
-     <property name="orientation">
-      <enum>Qt::Horizontal</enum>
-     </property>
-     <property name="standardButtons">
-      <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
-     </property>
     </widget>
    </item>
   </layout>

@@ -58,18 +58,13 @@ private slots:
     void on_pushButtonReplaceAddRows_clicked();
     void on_pushButtonReplaceClearSelection_clicked();
     void on_labelOutputReset_linkActivated(const QString &link);
-
     void on_labelOcrOptions2Reset_linkActivated(const QString &link);
-
     void on_pushButtonOcrTesseractConfigFile_clicked();
-
     void on_pushButtonOutputLoggingFile_clicked();
-
     void on_comboBoxSpeechLang_currentTextChanged(const QString &text);
-
     void on_labelSpeechReset_linkActivated(const QString &);
-
     void on_pushButtonSpeechPreview_clicked();
+    void on_listWidgetTabs_currentRowChanged(int currentRow);
 
 protected:
     void showEvent(QShowEvent *event);

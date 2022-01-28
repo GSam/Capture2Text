@@ -42,7 +42,7 @@ int main(int argc, char *argv[])
     QCoreApplication::setOrganizationName("Capture2Text");
     QCoreApplication::setOrganizationDomain("Capture2Text.com");
     QCoreApplication::setApplicationName("Capture2Text");
-    QCoreApplication::setApplicationVersion("4.5.1");
+    QCoreApplication::setApplicationVersion("4.6.2");
 
 #ifndef CLI_BUILD
     if(argc > 1)

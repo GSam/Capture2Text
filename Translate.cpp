@@ -19,11 +19,12 @@ along with Capture2Text.  If not, see <http://www.gnu.org/licenses/>.
 
 
 #include <QtNetwork/QNetworkRequest>
-
 #include <QThread>
 #include <QDebug>
 #include <QCoreApplication>
-#include <QRegularExpressionMatchIterator>
+#include <QJsonDocument>
+#include <QJsonArray>
+#include <QJsonValue>
 #include "Translate.h"
 #include "ReplyTimeout.h"
 
@@ -57,24 +58,35 @@ void Translate::requestFinished(QNetworkReply *reply)
 
     reply->deleteLater();
 
+    // Example single-line response (input was "Cat Dog Horse"):
+    // [[[\"Katze Hund Pferd\",\"Cat Dog Horse\",null,null,3,null,null,null,[[[\"8fd9cdd8f4db2bd633174a12abc58066\",\"en_de_transformer_2019q2.md\"]]]]],null,\"en\"]
+
     // Example multi-line response (input was "Cat\nDog\nHorse"):
-    // [[["Hund\n","Dog\n",null,null,1],["Katze\n","Cat\n",null,null,2],["Pferd","Horse",null,null,2]],null,"en"]
+    // [[["Katze\n","Cat\n",null,null,2],["Hund\n","Dog\n",null,null,1],["Pferd","Horse",null,null,1]],null,"en"]
 
-    // In case original phrase had double quotes, temporarily replace them with STX char
-    translationResponse = translationResponse.replace("\\\"", QChar(2));
-
-    QRegularExpression re("\\[\"(.*?)\"");
-    QRegularExpressionMatchIterator i = re.globalMatch(translationResponse);
     QString translation;
 
-    while (i.hasNext())
+    QJsonDocument jsonDoc = QJsonDocument::fromJson(translationResponse.toUtf8());
+    QJsonArray jsonArray1 = jsonDoc.array();
+
+    if(jsonArray1.size() > 0)
     {
-        QRegularExpressionMatch match = i.next();
-        translation += match.captured(1);
+        QJsonValue jsonValue1 = jsonArray1[0];
+        QJsonArray jsonArray2 = jsonValue1.toArray();
+
+        foreach (const QJsonValue & jsonValue2, jsonArray2)
+        {
+            QJsonArray jsonArray3 = jsonValue2.toArray();
+
+            if(jsonArray3.size() > 0)
+            {
+                QJsonValue jsonTranslation = jsonArray3[0];
+                translation += jsonTranslation.toString();
+            }
+        }
     }
 
     translation = translation.replace("\\n", "\n");
-    translation = translation.replace(QChar(2), "\"");
 
     //qDebug() << "Translation: " << translation;
     emit translationComplete(origPhrase, translation, false);
