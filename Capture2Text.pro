@@ -1,9 +1,8 @@
-
 QT += core
 
 !console {
     QT += gui network texttospeech
-    greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
+    QT += widgets
 }
 
 TARGET = Capture2Text
@@ -20,13 +19,17 @@ TEMPLATE = app
 # deprecated API in order to know how to port your code away from it.
 DEFINES += QT_DEPRECATED_WARNINGS
 
+win32{
 # Disable warning: C4305: 'initializing': truncation from 'double' to 'l_float32'
-# QMAKE_CXXFLAGS += /wd4305
+ QMAKE_CXXFLAGS += /wd4305
 
 # Disable warning: C4099: 'ETEXT_DESC': type name first seen using 'class' now seen using 'struct'
-# QMAKE_CXXFLAGS += /wd4099
+ QMAKE_CXXFLAGS += /wd4099
+}
+else{
 
 QMAKE_CXXFLAGS += -std=c++11
+}
 
 console {
     DEFINES += CLI_BUILD
@@ -109,9 +112,10 @@ HEADERS  += \
 
 
 # Linux Paths
+unix{
 INCLUDEPATH += /usr/include/tesseract/
 INCLUDEPATH += /usr/include/leptonica/
-
+}
 # INCLUDEPATH += E:\Dev\cpp\Tess4\tesseract\api
 # INCLUDEPATH += E:\Dev\cpp\Tess4\tesseract\ccmain
 # INCLUDEPATH += E:\Dev\cpp\Tess4\tesseract\ccstruct
@@ -138,12 +142,14 @@ bits32 {
         -ltesseract400d
 }
 
-
-# LIBS += -lpvt.cppan.demo.danbloomberg.leptonica-1.74.4
-# LIBS += -luser32
-
+win32{
+LIBS += -lpvt.cppan.demo.danbloomberg.leptonica-1.74.4
+LIBS += -luser32
+}
+unix{
 LIBS += -ltesseract
 LIBS += -llept
+}
 
 !console {
     RESOURCES += \
