@@ -38,6 +38,13 @@ unzip -o "English.zip" -d "tessdata"
 rm "English.zip"
 ```
 
+### only build cli verssion
+
+```
+qmake Capture2Text/Capture2Text.pro -d CONFIG+=console
+make
+```
+
 ## TODO
 * Make the build file more generic, so as to be able to build on Windows still
 * Add some additional instructions on packages to install and how to build
