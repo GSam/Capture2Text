@@ -2114,7 +2114,7 @@ python.exe &quot;C:\Scripts\test.py&quot; &quot;${capture}&quot; &quot;${transla
   <customwidget>
    <class>HotkeyWidget</class>
    <extends>QWidget</extends>
-   <header location="global">hotkeywidget.h</header>
+   <header location="global">HotkeyWidget.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>
