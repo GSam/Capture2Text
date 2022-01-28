@@ -586,7 +586,7 @@ void SettingsDialog::on_labelOutputReset_linkActivated(const QString &)
     ui->checkBoxOutputShowPopup->setChecked(Settings::defaultOutputShowPopup);
     ui->checkBoxOutputKeepLineBreaks->setChecked(Settings::defaultOutputKeepLineBreaks);
     ui->checkBoxOutputLoggingEnable->setChecked(Settings::defaultOutputLogFileEnable);
-    ui->lineEditOutputLoggingFile->setText(Settings::defaultOutputLogFileEnable);
+    ui->lineEditOutputLoggingFile->setText(Settings::defaultOutputLogFile);
     ui->lineEditOutputLoggingFormat->setText(Settings::defaultOutputLogFormat);
 
     ui->checkBoxDebugSaveCapturedImage->setChecked(Settings::defaultDebugSaveCaptureImage);

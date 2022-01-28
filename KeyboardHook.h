@@ -24,7 +24,9 @@ along with Capture2Text.  If not, see <http://www.gnu.org/licenses/>.
 #include <QEventLoop>
 #include <QDebug>
 #include <QMap>
+#ifdef __WIN32
 #include "Windows.h"
+#endif
 #include "Hotkey.h"
 
 class KeyboardHook : public QThread
@@ -38,8 +40,9 @@ public:
         static KeyboardHook instance;
         return instance;
     }
-
+#ifdef __WIN32
     HHOOK getHHook() const { return hHook; }
+#endif
     QMap<int, Hotkey> getHotkeys() { return hotkeys; }
 
     void addHotkey(int id, Hotkey hotkey);
@@ -51,15 +54,21 @@ signals:
     void keyPressed(int id);
 
 private:
+    #ifdef __WIN32
     HHOOK hHook;
+#endif
     QMap<int, Hotkey> hotkeys;
 
-    KeyboardHook(): hHook(nullptr)
+    KeyboardHook()
+        #ifdef __WIN32
+        : hHook(nullptr)
+#endif
     {
         start();
     }
-
+#ifdef __WIN32
     static LRESULT CALLBACK hookProc(int nCode, WPARAM wParam, LPARAM lParam);
+#endif
 };
 
 #endif // KEYBOARD_HOOK_H

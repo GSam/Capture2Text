@@ -40,7 +40,7 @@ public:
 
     QRect getCaptureRect();
 
-    void setBackgroundColor(QColor &value) { backgroundColor = value; }
+    void setBackgroundColor(QColor value) { backgroundColor = value; }
     void setUseBackgroundColor(bool value) { useBackgroundColor = value; }
 
     bool getUseBorder() const  { return useBorder; }

@@ -21,6 +21,7 @@ along with Capture2Text.  If not, see <http://www.gnu.org/licenses/>.
 
 void KeyboardHook::run()
 {
+  #ifdef __WIN32
     if(hHook == nullptr)
     {
         hHook = SetWindowsHookEx(WH_KEYBOARD_LL, hookProc, nullptr, 0);
@@ -31,6 +32,7 @@ void KeyboardHook::run()
             return;
         }
     }
+#endif
 
     QEventLoop eventLoop;
     eventLoop.exec();
@@ -65,15 +67,17 @@ void KeyboardHook::removeHotkey(int id)
 
 void KeyboardHook::endThread()
 {
+  #ifdef __WIN32
     if(hHook != nullptr)
     {
         UnhookWindowsHookEx(hHook);
         hHook = nullptr;
     }
+#endif
 
     exit(0);
 }
-
+#ifdef __WIN32
 LRESULT CALLBACK KeyboardHook::hookProc(int nCode, WPARAM wParam, LPARAM lParam)
 {
     if(nCode < 0)
@@ -128,3 +132,4 @@ LRESULT CALLBACK KeyboardHook::hookProc(int nCode, WPARAM wParam, LPARAM lParam)
 
     return CallNextHookEx(KeyboardHook::getInstance().getHHook(), nCode, wParam, lParam);
 }
+#endif

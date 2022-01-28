@@ -564,7 +564,7 @@ PIX *PreProcess::extractTextBlock(PIX *pixs, int pt_x, int pt_y, int lookahead, 
 #endif
 
     float pixelAvg = 0.0f;
-    status = pixAverageInRect(binarizeForNegPixs, &negRect, &pixelAvg);
+    status = pixAverageInRect(binarizeForNegPixs, NULL, &negRect, 0, 255, 1, &pixelAvg);
     pixDestroy(&binarizeForNegPixs);
 
     // qDebug() << "Pixel Avg: " << pixelAvg;

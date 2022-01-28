@@ -18,7 +18,9 @@ along with Capture2Text.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include "Hotkey.h"
+#ifdef __WIN32
 #include <windows.h>
+#endif
 
 Hotkey::Hotkey()
     : modCtrl(false), modShift(false), modAlt(false), modWin(false), vkCode(0)
@@ -202,6 +204,7 @@ QList<KeyNameCode> Hotkey::keyNameCodes = QList<KeyNameCode>()
         << KeyNameCode("X", 'X')
         << KeyNameCode("Y", 'Y')
         << KeyNameCode("Z", 'Z')
+#ifdef __WIN32
         << KeyNameCode("F1", VK_F1)
         << KeyNameCode("F2", VK_F2)
         << KeyNameCode("F3", VK_F3)
@@ -259,6 +262,7 @@ QList<KeyNameCode> Hotkey::keyNameCodes = QList<KeyNameCode>()
         << KeyNameCode("Scroll Lock", VK_SCROLL)
         << KeyNameCode("Pause", VK_PAUSE)
         //<< KeyNameCode("Application", VK_APPS)
+#endif
            ;
 
 
