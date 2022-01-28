@@ -1,5 +1,7 @@
 # Capture2Text
-Linux CLI port of Capture2Text v4.5.1
+Linux CLI port of Capture2Text v4.6.2
+
+sync from:https://sourceforge.net/projects/capture2text/
 
 The OCR results from Capture2Text were generally better than standard Tesseract, so it seemed ideal to make this run on Linux. It turns out the console version can actually run without anything more than build changes.
 
@@ -34,6 +36,13 @@ make
 wget "https://github.com/GSam/Capture2Text/releases/download/Prototype/English.zip"
 unzip -o "English.zip" -d "tessdata"
 rm "English.zip"
+```
+
+### only build cli verssion
+
+```
+qmake Capture2Text/Capture2Text.pro -d CONFIG+=console
+make
 ```
 
 ## TODO
