@@ -37,6 +37,8 @@ wget "https://github.com/GSam/Capture2Text/releases/download/Prototype/English.z
 unzip -o "English.zip" -d "tessdata"
 rm "English.zip"
 ```
+### known issues:
+* can not capture screen on wayland.
 
 ### only build cli verssion
 
