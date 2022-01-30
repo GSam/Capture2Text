@@ -10,11 +10,11 @@ Tesseract, Qt 5 (cannot be version 4), Leptonica
 
 Ubuntu
 
-`sudo apt-get install -y libtesseract-dev qtbase5-dev libleptonica-dev`
+`sudo apt-get install -y libtesseract-dev qtbase5-dev qt5-default libleptonica-dev`
 
 Centos
 
-`sudo yum install -y tesseract-devel qt5-qtbase leptonica-devel`
+`sudo yum install -y tesseract-devel qt5-qtbase qt5-default leptonica-devel`
 
 ## Build instructions
 
