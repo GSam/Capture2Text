@@ -41,7 +41,7 @@ CaptureBox::CaptureBox()
     connect(&timerUpdateCaptureMode, &QTimer::timeout, this, &CaptureBox::updateCaptureMode);
     connect(&autoCaptureTimer, &QTimer::timeout, this, &CaptureBox::autoCaptureTimeout);
     connect(&moveTimer, &QTimer::timeout, this, &CaptureBox::moveTimeout);
-    connect(&KeyboardHook::getInstance(), &KeyboardHook::keyPressed, this, &CaptureBox::hotkeyPressed);
+    //connect(&KeyboardHook::getInstance(), &KeyboardHook::keyPressed, this, &CaptureBox::hotkeyPressed);
     connect(&MouseHook::getInstance(), &MouseHook::buttonPressed, this, &CaptureBox::hotkeyPressed);
 }
 

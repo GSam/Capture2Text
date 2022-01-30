@@ -37,6 +37,7 @@ along with Capture2Text.  If not, see <http://www.gnu.org/licenses/>.
 #include "MouseHook.h"
 #include "UtilsCommon.h"
 #include "Speech.h"
+#include "qhotkey.h"
 
 
 MainWindow::MainWindow(bool portable)
@@ -674,17 +675,136 @@ void MainWindow::showSettingsDialog()
 
 void MainWindow::registerHotkeys()
 {
-    KeyboardHook::getInstance().addHotkey(CAPTURE_BOX, Hotkey(Settings::getHotkeyCaptureBox()));
-    KeyboardHook::getInstance().addHotkey(RE_CAPTURE_LAST, Hotkey(Settings::getHotkeyReCaptureLast()));
-    KeyboardHook::getInstance().addHotkey(TEXTLINE_CAPTURE, Hotkey(Settings::getHotkeyTextLineCapture()));
-    KeyboardHook::getInstance().addHotkey(FORWARD_TEXTLINE_CAPTURE, Hotkey(Settings::getHotkeyForwardTextLineCapture()));
-    KeyboardHook::getInstance().addHotkey(BUBBLE_CAPTURE, Hotkey(Settings::getHotkeyBubbleCapture()));
-    KeyboardHook::getInstance().addHotkey(LANG_1, Hotkey(Settings::getHotkeyLang1()));
-    KeyboardHook::getInstance().addHotkey(LANG_2, Hotkey(Settings::getHotkeyLang2()));
-    KeyboardHook::getInstance().addHotkey(LANG_3, Hotkey(Settings::getHotkeyLang3()));
-    KeyboardHook::getInstance().addHotkey(TEXT_ORIENTATION, Hotkey(Settings::getHotkeyTextOrientation()));
-    KeyboardHook::getInstance().addHotkey(ENABLE_WHITELIST, Hotkey(Settings::getHotkeyWhitelist()));
-    KeyboardHook::getInstance().addHotkey(ENABLE_BLACKLIST, Hotkey(Settings::getHotkeyBlacklist()));
+  //unregister all the hotkeys;
+  for (auto hotkey : hotkeys ) {
+    disconnect(hotkey);
+  }
+
+//    KeyboardHook::getInstance().addHotkey(CAPTURE_BOX, Hotkey(Settings::getHotkeyCaptureBox()));
+//    KeyboardHook::getInstance().addHotkey(RE_CAPTURE_LAST, Hotkey(Settings::getHotkeyReCaptureLast()));
+//    KeyboardHook::getInstance().addHotkey(TEXTLINE_CAPTURE, Hotkey(Settings::getHotkeyTextLineCapture()));
+//    KeyboardHook::getInstance().addHotkey(FORWARD_TEXTLINE_CAPTURE, Hotkey(Settings::getHotkeyForwardTextLineCapture()));
+//    KeyboardHook::getInstance().addHotkey(BUBBLE_CAPTURE, Hotkey(Settings::getHotkeyBubbleCapture()));
+//    KeyboardHook::getInstance().addHotkey(LANG_1, Hotkey(Settings::getHotkeyLang1()));
+//    KeyboardHook::getInstance().addHotkey(LANG_2, Hotkey(Settings::getHotkeyLang2()));
+//    KeyboardHook::getInstance().addHotkey(LANG_3, Hotkey(Settings::getHotkeyLang3()));
+//    KeyboardHook::getInstance().addHotkey(TEXT_ORIENTATION, Hotkey(Settings::getHotkeyTextOrientation()));
+//    KeyboardHook::getInstance().addHotkey(ENABLE_WHITELIST, Hotkey(Settings::getHotkeyWhitelist()));
+//    KeyboardHook::getInstance().addHotkey(ENABLE_BLACKLIST, Hotkey(Settings::getHotkeyBlacklist()));
+
+    QHotkey* cb=new QHotkey(QKeySequence(Settings::getHotkeyCaptureBox()),true,qApp);
+    cb->setRegistered(true);
+    connect(cb, &QHotkey::activated, qApp, [this](){
+      if(captureBox.isVisible())
+      {
+        endCaptureBox();
+      }
+      else
+      {
+        startCaptureBox();
+      }
+    });
+
+    QHotkey* rcl=new QHotkey(QKeySequence(Settings::getHotkeyReCaptureLast()),true,qApp);
+    connect(rcl, &QHotkey::activated, qApp, [this](){
+     endCaptureBox();
+    });
+
+    QHotkey* tlc=new QHotkey(QKeySequence(Settings::getHotkeyTextLineCapture()),true,qApp);
+    connect(tlc, &QHotkey::activated, qApp, [this](){
+      performTextLineCapture(QCursor::pos());
+    });
+
+    QHotkey* ftlc=new QHotkey(QKeySequence(Settings::getHotkeyForwardTextLineCapture()),true,qApp);
+    connect(ftlc, &QHotkey::activated, qApp, [this](){
+       performForwardTextLineCapture(QCursor::pos());
+    });
+
+    QHotkey* bc=new QHotkey(QKeySequence(Settings::getHotkeyBubbleCapture()),true,qApp);
+    connect(bc, &QHotkey::activated, qApp, [this](){
+      performBubbleCapture(QCursor::pos());
+    });
+
+    QHotkey* lang1=new QHotkey(QKeySequence(Settings::getHotkeyLang1()),true,qApp);
+    connect(lang1, &QHotkey::activated, qApp, [this](){
+      QString lang = Settings::getOcrQuickAccessLang1();
+
+      if(OcrEngine::isLangInstalled(lang))
+      {
+        setOcrLang(lang);
+        infoBox.showInfo(lang);
+      }
+      else
+      {
+        infoBox.showInfo(lang + " is not installed!");
+      }
+    });
+
+    QHotkey* lang2=new QHotkey(QKeySequence(Settings::getHotkeyLang2()),true,qApp);
+    connect(lang2, &QHotkey::activated, qApp, [this](){
+      QString lang = Settings::getOcrQuickAccessLang2();
+
+      if(OcrEngine::isLangInstalled(lang))
+      {
+        setOcrLang(lang);
+        infoBox.showInfo(lang);
+      }
+      else
+      {
+        infoBox.showInfo(lang + " is not installed!");
+      }
+    });
+
+
+    QHotkey* lang3=new QHotkey(QKeySequence(Settings::getHotkeyLang3()),true,qApp);
+    connect(lang3, &QHotkey::activated, qApp, [this](){
+      QString lang = Settings::getOcrQuickAccessLang3();
+
+      if(OcrEngine::isLangInstalled(lang))
+      {
+        setOcrLang(lang);
+        infoBox.showInfo(lang);
+      }
+      else
+      {
+        infoBox.showInfo(lang + " is not installed!");
+      }
+    });
+
+    QHotkey* to=new QHotkey(QKeySequence(Settings::getHotkeyTextOrientation()),true,qApp);
+    connect(to, &QHotkey::activated, qApp, [this](){
+      if(Settings::getOcrTextOrientation() == "Auto")
+      {
+        Settings::setOcrTextOrientation("Horizontal");
+      }
+      else if(Settings::getOcrTextOrientation() == "Horizontal")
+      {
+        Settings::setOcrTextOrientation("Vertical");
+      }
+      else
+      {
+        Settings::setOcrTextOrientation("Auto");
+      }
+
+      checkCurrentTextOrientationInMenu();
+      infoBox.showInfo(Settings::getOcrTextOrientation());
+    });
+
+    QHotkey* wl=new QHotkey(QKeySequence(Settings::getHotkeyWhitelist()),true,qApp);
+    connect(wl, &QHotkey::activated, qApp, [this](){
+      bool enabled = !Settings::getOcrEnableWhitelist();
+      Settings::setOcrEnableWhitelist(enabled);
+      infoBox.showInfo(enabled ? "Whitelist Enabled": "Whitelist Disabled");
+    });
+
+    QHotkey* bl=new QHotkey(QKeySequence(Settings::getHotkeyBlacklist()),true,qApp);
+    connect(bl, &QHotkey::activated, qApp, [this](){
+      bool enabled = !Settings::getOcrEnableBlacklist();
+      Settings::setOcrEnableBlacklist(enabled);
+      infoBox.showInfo(enabled ? "Blacklist Enabled": "Blacklist Disabled");
+    });
+
+    hotkeys<<cb<<rcl<<tlc<<ftlc<<bc<<lang1<<lang2<<lang3<<to<<wl<<bl;
 }
 
 void MainWindow::settingsAccepted()
