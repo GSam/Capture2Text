@@ -149,7 +149,6 @@ void MainWindow::startCaptureBox()
         previewBox.show();
         previewBox.raise();
     }
-
     captureBox.startCaptureMode();
 }
 
@@ -679,6 +678,7 @@ void MainWindow::registerHotkeys()
   for (auto hotkey : hotkeys ) {
     disconnect(hotkey);
   }
+  hotkeys.clear();
 
 //    KeyboardHook::getInstance().addHotkey(CAPTURE_BOX, Hotkey(Settings::getHotkeyCaptureBox()));
 //    KeyboardHook::getInstance().addHotkey(RE_CAPTURE_LAST, Hotkey(Settings::getHotkeyReCaptureLast()));
@@ -1345,5 +1345,3 @@ void MainWindow::createTrayMenu()
     trayIcon->setContextMenu(menuTrayIcon);
     trayIcon->show();
 }
-
-
