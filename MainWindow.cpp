@@ -334,7 +334,7 @@ void MainWindow::performForwardTextLineCapture(QPoint pt)
     }
 
     QDesktopWidget desktopWidget;
-    QRect screenRect = desktopWidget.screenGeometry(pt);
+    QRect screenRect = screen()->geometry();// desktopWidget.screenGeometry(pt);
 
     bool isVertical = false;
 
@@ -675,7 +675,7 @@ void MainWindow::showSettingsDialog()
 
 void MainWindow::registerHotkeys()
 {
-  //unregister all the hotkeys;
+  //unregister all the hotkeys
   for (auto hotkey : hotkeys ) {
     disconnect(hotkey);
   }
@@ -844,21 +844,20 @@ void MainWindow::selectOutputPopupFromMenu()
     Settings::setOutputShowPopup(actionShowPopupWindow->isChecked());
 }
 
-void MainWindow::setOcrLang(QString lang)
-{
-    actionGroupOcrLang->checkedAction()->setChecked(false);
+void MainWindow::setOcrLang(QString lang) {
+  auto action = actionGroupOcrLang->checkedAction();
+  if (action)
+    action->setChecked(false);
 
-    for(auto action : actionGroupOcrLang->actions())
-    {
-        if(action->text() == lang)
-        {
-            action->setChecked(true);
-            break;
-        }
+  for (auto action : actionGroupOcrLang->actions()) {
+    if (action->text() == lang) {
+      action->setChecked(true);
+      break;
     }
+  }
 
-    Settings::setOcrLang(lang);
-    QtConcurrent::run(ocrEngine, &OcrEngine::setLang, lang);
+  Settings::setOcrLang(lang);
+  QtConcurrent::run(ocrEngine, &OcrEngine::setLang, lang);
 }
 
 void MainWindow::captureBoxMoved()
