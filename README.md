@@ -38,7 +38,7 @@ unzip -o "English.zip" -d "tessdata"
 rm "English.zip"
 ```
 ### known issues:
-* can not capture screen on wayland.
+* can not capture screen on wayland.https://github.com/MaartenBaert/ssr/issues/431
 
 ### only build cli verssion
 
