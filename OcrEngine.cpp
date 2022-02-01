@@ -239,7 +239,7 @@ QString OcrEngine::performOcr(PIX *pixs, bool singleTextLine)
     tessApi->Clear();
 
     //with this line ,vs crash.
-//    delete [] outText;
+    delete [] outText;
 
     mutex.unlock();
 

@@ -51,6 +51,7 @@ rm "English.zip"
 ```
 ### known issues:
 * can not capture screen on wayland.https://github.com/MaartenBaert/ssr/issues/431
+* Compile with Visual Studio on Windows ,should set runtime library to /MD but not /MDd
 
 ### only build cli verssion
 
