@@ -25,6 +25,8 @@ win32{
 
 # Disable warning: C4099: 'ETEXT_DESC': type name first seen using 'class' now seen using 'struct'
  QMAKE_CXXFLAGS += /wd4099
+
+ DEFINES += __WIN32
 }
 else{
 

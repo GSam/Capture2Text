@@ -39,7 +39,7 @@ class OcrEngine
 public:
     OcrEngine();
     ~OcrEngine();
-public:
+    static QString getTessdataPath();
     static QStringList getInstalledLangs();
     static bool isLangInstalled(QString lang);
     static QString getFirstInstalledLang();

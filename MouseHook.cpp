@@ -21,22 +21,22 @@ along with Capture2Text.  If not, see <http://www.gnu.org/licenses/>.
 
 void MouseHook::run()
 {
-  #ifdef __WIN32
-    if(hHook == nullptr)
-    {
-        hHook = SetWindowsHookEx(WH_MOUSE_LL, hookProc, nullptr, 0);
+//  #ifdef __WIN32
+//    if(hHook == nullptr)
+//    {
+//        hHook = SetWindowsHookEx(WH_MOUSE_LL, hookProc, nullptr, 0);
 
-        if (hHook == nullptr)
-        {
-            qDebug() << "Mouse Hook Failed!";
-            return;
-        }
+//        if (hHook == nullptr)
+//        {
+//            qDebug() << "Mouse Hook Failed!";
+//            return;
+//        }
 
-        // qDebug() << "Mouse hooked";
-    }
-#endif
-    QEventLoop eventLoop;
-    eventLoop.exec();
+//        // qDebug() << "Mouse hooked";
+//    }
+//#endif
+//    QEventLoop eventLoop;
+//    eventLoop.exec();
 }
 
 void MouseHook::endThread()
