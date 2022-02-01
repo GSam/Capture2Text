@@ -18,7 +18,19 @@ Centos
 
 ## Build instructions
 
-Ubuntu
+### Windows:
+
+```
+pip install conan
+conan install .
+```
+then use qtcreator to build the project.
+after build.
+copy `lib/*.dll` to the same folder as Capture2Text.exe file.
+in the same Capture2Text.exe folder ,creat a folder called `tessdata` and put the trained data into it.
+
+
+### Ubuntu
 
 ```
 QT_SELECT=5 qmake Capture2Text/Capture2Text.pro -d
@@ -28,7 +40,7 @@ unzip -o "English.zip" -d "tessdata"
 rm "English.zip"
 ```
 
-Centos:
+### Centos:
 
 ```
 QT_SELECT=5 qmake-qt5 Capture2Text/Capture2Text.pro -d
