@@ -1,0 +1,11 @@
+[requires]
+tesseract/4.1.1
+leptonica/1.78.0
+[options]
+tesseract:shared=True
+leptonica:shared=True
+[generators]
+qmake
+[imports]
+bin,tesseract*.dll -> ./lib/
+bin,leptonica*.dll -> ./lib/

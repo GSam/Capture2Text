@@ -26,7 +26,7 @@ along with Capture2Text.  If not, see <http://www.gnu.org/licenses/>.
 #include <QMutex>
 #include <QRect>
 
-#include "baseapi.h"
+#include "tesseract\baseapi.h"
 #include "allheaders.h"
 
 

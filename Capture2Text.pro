@@ -116,36 +116,11 @@ unix{
 INCLUDEPATH += /usr/include/tesseract/
 INCLUDEPATH += /usr/include/leptonica/
 }
-# INCLUDEPATH += E:\Dev\cpp\Tess4\tesseract\api
-# INCLUDEPATH += E:\Dev\cpp\Tess4\tesseract\ccmain
-# INCLUDEPATH += E:\Dev\cpp\Tess4\tesseract\ccstruct
-# INCLUDEPATH += E:\Dev\cpp\Tess4\tesseract\ccutil
-# INCLUDEPATH += E:\Dev\cpp\Leptonica_1.74.4\src
-
-# Tesseract and Leptonica
-bits32 {
-    # 32-bit
-    win32:CONFIG(release, debug|release): LIBS += -LE:\Dev\cpp\Leptonica_1.74.4\bin\32\Release \
-        -LE:\Dev\cpp\Tess4\tesseract\build\Release \
-        -ltesseract400
-    else:win32:CONFIG(debug, debug|release): LIBS += -LE:\Dev\cpp\Leptonica_1.74.4\bin\32\Debug \
-        -LE:\Dev\cpp\Tess4\tesseract\build\Debug \
-        -ltesseract400d
-
-} else {
-    # 64-bit
-    win32:CONFIG(release, debug|release): LIBS += -LE:\Dev\cpp\Leptonica_1.74.4\bin\64\Release \
-        -LE:\Dev\cpp\Tess4\tesseract\win64\Release \
-        -ltesseract400
-    else:win32:CONFIG(debug, debug|release): LIBS += -LE:\Dev\cpp\Leptonica_1.74.4\bin\64\Debug \
-        -LE:\Dev\cpp\Tess4\tesseract\win64\Debug \
-        -ltesseract400d
-}
-
 win32{
-LIBS += -lpvt.cppan.demo.danbloomberg.leptonica-1.74.4
-LIBS += -luser32
+ CONFIG += conan_basic_setup
+ include ( conanbuildinfo.pri)
 }
+# Tesseract and Leptonica
 unix{
 LIBS += -ltesseract
 LIBS += -llept
