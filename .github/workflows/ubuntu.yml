@@ -79,7 +79,7 @@ jobs:
             branch:               ${{ github.ref_name }}
             commit:               ${{ steps.vars.outputs.sha_short }} 
             Qt version:           ${{ matrix.qt_ver }} ${{ matrix.qt_arch }}
-            Windows built with:   msvc64  Visual studio 2019
-            AppImage built with:  Ubuntu-20.04 ,latest gcc
+            Windows   built with:  MSVC-64  Visual studio 2019
+            AppImage  built with:  Ubuntu-20.04 ,latest gcc ,built with english ocr .if you want other `Language` ,build by yourself following steps.
             
             This is a prerelease version ,auto build by github action. use on your on risk:-)
