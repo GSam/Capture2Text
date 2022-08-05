@@ -123,9 +123,15 @@ HEADERS  += \
         WelcomeDialog.ui
 }
 
+mac{
+    QT_CONFIG -= no-pkg-config 
+    CONFIG += link_pkgconfig
+
+    PKGCONFIG += tesseract lept
+}
 
 # Linux Paths
-!win32{
+unix:!mac{
 INCLUDEPATH += /usr/include/tesseract/
 INCLUDEPATH += /usr/include/leptonica/
 }

@@ -20,7 +20,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [macos-10.15,macos-11.0]
+        os: [macos-11.0]
         qt_ver: [5.15.2]
         qt_arch: [clang_64]
     steps:
@@ -38,11 +38,11 @@ jobs:
           modules: qttexttospeech
       - name: install thirdparty dependencies
         run: |
-          # brew uninstall  tesseract
-          # brew uninstall  leptonica
-          brew install tesseract 
+          brew reinstall tesseract
           brew install leptonica
+          brew install pkg-config
           brew install create-dmg
+          ls -al /usr/local/Cellar/tesseract/5.2.0
       - uses: actions/checkout@v2
         with:
           fetch-depth: 1
@@ -50,7 +50,7 @@ jobs:
       - name: build Capture2Text
         run: |
           qmake CONFIG+=release
-          make  -j`nproc` 
+          CPATH=/usr/local/Cellar/tesseract/5.2.0/include:/usr/local/Cellar/leptonica/1.82.0_1/include make  -j`nproc` 
       - name: Build AppImage
         run: |
           macdeployqt Capture2Text.app -qmldir=. -verbose=1
