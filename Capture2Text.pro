@@ -12,7 +12,7 @@ console {
 }
 
 TEMPLATE = app
-unix{
+!win32{
     PREFIX = $${PREFIX}
     isEmpty( PREFIX ):PREFIX = $$(PREFIX)
     isEmpty( PREFIX ):PREFIX = /usr/local
@@ -125,7 +125,7 @@ HEADERS  += \
 
 
 # Linux Paths
-unix{
+!win32{
 INCLUDEPATH += /usr/include/tesseract/
 INCLUDEPATH += /usr/include/leptonica/
 }
@@ -134,7 +134,7 @@ win32{
  include ( conanbuildinfo.pri)
 }
 # Tesseract and Leptonica
-unix{
+!win32{
 LIBS += -ltesseract
 LIBS += -llept
 }
