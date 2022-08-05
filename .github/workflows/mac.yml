@@ -38,8 +38,8 @@ jobs:
           modules: qttexttospeech
       - name: install thirdparty dependencies
         run: |
-          brew remove tesseract
-          brew remove leptonica
+          brew uninstall  tesseract
+          brew uninstall  leptonica
           brew install tesseract leptonica
           brew install create-dmg
       - uses: actions/checkout@v2
