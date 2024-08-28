@@ -49,6 +49,18 @@ SettingsDialog::~SettingsDialog()
 
 void SettingsDialog::init()
 {
+    ui->listWidgetTabs->addItem("Hotkeys");
+    ui->listWidgetTabs->addItem("OCR 1");
+    ui->listWidgetTabs->addItem("OCR 2");
+    ui->listWidgetTabs->addItem("Capture Box");
+    ui->listWidgetTabs->addItem("Preview");
+    ui->listWidgetTabs->addItem("Output");
+    ui->listWidgetTabs->addItem("Replace");
+    ui->listWidgetTabs->addItem("Translate");
+    ui->listWidgetTabs->addItem("Speech");
+
+    ui->listWidgetTabs->setCurrentRow(0);
+
     ui->samplePreviewBox->setIsCaptureBoxSample(false);
 
     ui->comboBoxOcrCurrentLang->addItems(OcrEngine::getInstalledLangs());
@@ -165,6 +177,8 @@ void SettingsDialog::showEvent(QShowEvent *event)
     ui->checkBoxDebugSaveEnhancedImage->setChecked(Settings::getDebugSaveEnhancedImage());
     ui->checkBoxDebugAppendTimestampToImage->setChecked(Settings::getDebugAppendTimestampToImage());
     ui->checkBoxDebugPrependCoords->setChecked(Settings::getDebugPrependCoords());
+    ui->checkBoxOutputCallExeEnable->setChecked(Settings::getOutputCallExeEnable());
+    ui->lineEditOutputCallExe->setText(Settings::getOutputCallExe());
 
     ui->comboBoxReplaceLang->setCurrentText(Settings::getOcrLang());
     setReplacementTable(Settings::getOcrLang());
@@ -356,6 +370,8 @@ void SettingsDialog::on_SettingsDialog_accepted()
     Settings::setDebugSaveEnhancedImage(ui->checkBoxDebugSaveEnhancedImage->isChecked());
     Settings::setDebugAppendTimestampToImage(ui->checkBoxDebugAppendTimestampToImage->isChecked());
     Settings::setDebugPrependCoords(ui->checkBoxDebugPrependCoords->isChecked());
+    Settings::setOutputCallExeEnable(ui->checkBoxOutputCallExeEnable->isChecked());
+    Settings::setOutputCallExe(ui->lineEditOutputCallExe->text());
 
     saveReplacementTable(lastReplacementLang);
 
@@ -566,17 +582,20 @@ void SettingsDialog::on_pushButtonOutputLoggingFile_clicked()
 
 void SettingsDialog::on_labelOutputReset_linkActivated(const QString &)
 {
-    ui->checkBoxOutputClipboard->setChecked(Settings::defaultOutputClipbaord);
+    ui->checkBoxOutputClipboard->setChecked(Settings::defaultOutputClipboard);
     ui->checkBoxOutputShowPopup->setChecked(Settings::defaultOutputShowPopup);
     ui->checkBoxOutputKeepLineBreaks->setChecked(Settings::defaultOutputKeepLineBreaks);
     ui->checkBoxOutputLoggingEnable->setChecked(Settings::defaultOutputLogFileEnable);
-    ui->lineEditOutputLoggingFile->setText(Settings::defaultOutputLogFileEnable);
+    ui->lineEditOutputLoggingFile->setText(Settings::defaultOutputLogFile);
     ui->lineEditOutputLoggingFormat->setText(Settings::defaultOutputLogFormat);
 
     ui->checkBoxDebugSaveCapturedImage->setChecked(Settings::defaultDebugSaveCaptureImage);
     ui->checkBoxDebugSaveEnhancedImage->setChecked(Settings::defaultDebugSaveEnhancedImage);
     ui->checkBoxDebugAppendTimestampToImage->setChecked(Settings::defaultDebugAppendTimestampToImage);
     ui->checkBoxDebugPrependCoords->setChecked(Settings::defaultDebugPrependCoords);
+
+    ui->checkBoxOutputCallExeEnable->setChecked(Settings::defaultOutputCallExeEnable);
+    ui->lineEditOutputCallExe->setText(Settings::defaultOutputCallExe);
 }
 
 void SettingsDialog::on_comboBoxReplaceLang_currentTextChanged(const QString &text)
@@ -669,3 +688,9 @@ void SettingsDialog::on_pushButtonSpeechPreview_clicked()
             ui->horizontalSliderSpeechPitch->value()
             );
 }
+
+void SettingsDialog::on_listWidgetTabs_currentRowChanged(int currentRow)
+{
+    ui->stackedWidget->setCurrentIndex(currentRow);
+}
+

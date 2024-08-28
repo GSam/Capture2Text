@@ -1,0 +1,44 @@
+[requires]
+tesseract/5.0.0
+leptonica/1.82.0
+giflib/5.2.1
+jbig/20160605
+libarchive/3.5.2
+libcurl/7.80.0
+libdeflate/1.9
+libiconv/1.16
+libjpeg/9d
+libpng/1.6.37
+libtiff/4.3.0
+libwebp/1.2.1
+openjpeg/2.4.0
+openssl/1.1.1l
+xz_utils/5.2.5
+zlib/1.2.11
+zstd/1.5.2
+[options]
+tesseract:shared=True
+leptonica:shared=True
+giflib:shared=True
+jbig:shared=True
+libarchive:shared=True
+libcurl:shared=True
+libdeflate:shared=True
+libiconv:shared=True
+libjpeg:shared=True
+libpng:shared=True
+libtiff:shared=True
+libwebp:shared=True
+openjpeg:shared=True
+openssl:shared=True
+xz_utils:shared=True
+zlib:shared=True
+zstd:shared=True
+[generators]
+qmake
+[imports]
+bin,*.dll -> ./lib/
+#bin,tesseract*.dll -> ./lib/
+#lib,tesseract*.lib -> ./lib/
+#bin,leptonica*.dll -> ./lib/
+#lib,leptonica*.lib -> ./lib/

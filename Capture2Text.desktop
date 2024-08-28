@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Terminal=false
+Categories=Office;Education;Qt;
+Name=Capture2Text
+GenericName=Capture2Text ocr
+Comment=Capture2Text enables users to quickly OCR a portion of the screen using a keyboard shortcut. The resulting text will be saved to the clipboard by default. Supports 90+ languages including Chinese, English, French, German, Japanese, Korean, Russian, and Spanish. Portable and does not require installation. See http://capture2text.sourceforge.net for details.
+Icon=Capture2Text
+Exec=Capture2Text

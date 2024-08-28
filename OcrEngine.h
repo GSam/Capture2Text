@@ -26,16 +26,21 @@ along with Capture2Text.  If not, see <http://www.gnu.org/licenses/>.
 #include <QMutex>
 #include <QRect>
 
+#if defined( Q_OS_WIN32 ) || defined( Q_OS_MAC )
+#include "tesseract/baseapi.h"
+#else
 #include "baseapi.h"
-#include "allheaders.h"
+#endif
 
+
+#include "allheaders.h"
 
 class OcrEngine
 {
 public:
     OcrEngine();
     ~OcrEngine();
-public:
+    static QString getTessdataPath();
     static QStringList getInstalledLangs();
     static bool isLangInstalled(QString lang);
     static QString getFirstInstalledLang();

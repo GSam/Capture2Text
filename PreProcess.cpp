@@ -153,7 +153,22 @@ PIX *PreProcess::convertImageToPix(QString imageFile)
 // Be sure to call pixDestroy() on the returned PIX pointer to avoid memory leak.
 PIX *PreProcess::makeGray(PIX *pixs)
 {
-    PIX *pixGray = pixConvertRGBToGray(pixs, 0.0f, 0.0f, 0.0f);
+    PIX *pixGray = nullptr;
+
+    if(pixs->d == 32)
+    {
+        pixGray = pixConvertRGBToGray(pixs, 0.0f, 0.0f, 0.0f);
+    }
+    else if(pixs->d == 24)
+    {
+        PIX *pix32bpp = pixConvert24To32(pixs);
+        pixGray = pixConvertRGBToGray(pix32bpp, 0.0f, 0.0f, 0.0f);
+        pixDestroy(&pix32bpp);
+    }
+    else
+    {
+        pixGray = pixConvertTo8(pixs, 0);
+    }
 
     if(pixGray == nullptr)
     {
@@ -394,6 +409,14 @@ PIX *PreProcess::eraseFurigana(PIX *pixs)
 // Be sure to call pixDestroy() on the returned PIX pointer to avoid memory leak.
 PIX *PreProcess::processImage(PIX *pixs, bool performDeskew, bool trim)
 {
+    // If pixs is already 1-bpp, skip pre-processing
+    if(pixs->d == 1)
+    {
+        PIX *pix1bpp = pixClone(pixs);
+        setDPI(pix1bpp);
+        return pix1bpp;
+    }
+
     debugImgCount = 0;
 
     // Convert to grayscale
@@ -541,7 +564,7 @@ PIX *PreProcess::extractTextBlock(PIX *pixs, int pt_x, int pt_y, int lookahead, 
 #endif
 
     float pixelAvg = 0.0f;
-    status = pixAverageInRect(binarizeForNegPixs, &negRect, &pixelAvg);
+    status = pixAverageInRect(binarizeForNegPixs, NULL, &negRect, 0, 255, 1, &pixelAvg);
     pixDestroy(&binarizeForNegPixs);
 
     // qDebug() << "Pixel Avg: " << pixelAvg;

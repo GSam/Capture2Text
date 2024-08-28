@@ -19,6 +19,7 @@ along with Capture2Text.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <QCoreApplication>
 #include <QDir>
+#include <QTextStream>
 
 #ifndef CLI_BUILD
     #include <QColorDialog>
@@ -77,9 +78,29 @@ QString UtilsCommon::formatLogLine(QString format, QString ocrText, QDateTime ti
     QString line = format;
     line.replace("${tab}", "\t");
     line.replace("${linebreak}", "\n");
-    line.replace("${timestamp}", timestampToStr(timestamp));
+    line.replace("${}", timestampToStr(timestamp));
     line.replace("${file}", file);
     line.replace("${translation}", translation);
     line.replace("${capture}", ocrText);
     return line;
+}
+
+void UtilsCommon::writeTextFile(QString file, QString text, bool append)
+{
+    QFile theFile(file);
+    QIODevice::OpenMode mode = QIODevice::WriteOnly | QIODevice::Text;
+
+    if(append)
+    {
+        mode |= QIODevice::Append;
+    }
+
+    if (theFile.open(mode))
+    {
+        QTextStream stream(&theFile);
+        stream.setCodec("UTF-8");
+        stream.setGenerateByteOrderMark(true);
+        stream << text;
+        theFile.close();
+    }
 }

@@ -21,32 +21,34 @@ along with Capture2Text.  If not, see <http://www.gnu.org/licenses/>.
 
 void MouseHook::run()
 {
-    if(hHook == nullptr)
-    {
-        hHook = SetWindowsHookEx(WH_MOUSE_LL, hookProc, nullptr, 0);
+//  #ifdef __WIN32
+//    if(hHook == nullptr)
+//    {
+//        hHook = SetWindowsHookEx(WH_MOUSE_LL, hookProc, nullptr, 0);
 
-        if (hHook == nullptr)
-        {
-            qDebug() << "Mouse Hook Failed!";
-            return;
-        }
+//        if (hHook == nullptr)
+//        {
+//            qDebug() << "Mouse Hook Failed!";
+//            return;
+//        }
 
-        // qDebug() << "Mouse hooked";
-    }
-
-    QEventLoop eventLoop;
-    eventLoop.exec();
+//        // qDebug() << "Mouse hooked";
+//    }
+//#endif
+//    QEventLoop eventLoop;
+//    eventLoop.exec();
 }
 
 void MouseHook::endThread()
 {
+  #ifdef __WIN32
     if(hHook != nullptr)
     {
         UnhookWindowsHookEx(hHook);
         hHook = nullptr;
         // qDebug() << "Mouse Unhooked";
     }
-
+#endif
     exit(0);
 }
 
@@ -59,7 +61,7 @@ bool MouseHook::getRightMouseButtonHeld()
 {
     return rightMouseButtonHeld;
 }
-
+#ifdef __WIN32
 LRESULT CALLBACK MouseHook::hookProc(int nCode, WPARAM wParam, LPARAM lParam)
 {
     if(nCode < 0)
@@ -89,3 +91,4 @@ LRESULT CALLBACK MouseHook::hookProc(int nCode, WPARAM wParam, LPARAM lParam)
 
     return CallNextHookEx(MouseHook::getInstance().getHHook(), nCode, wParam, lParam);
 }
+#endif

@@ -22,6 +22,8 @@ along with Capture2Text.  If not, see <http://www.gnu.org/licenses/>.
 #include <QDir>
 #include "OcrEngine.h"
 
+#include "Settings.h"
+
 OcrEngine::OcrEngine()
     : lang("English"),
       whitelist(""),
@@ -30,6 +32,7 @@ OcrEngine::OcrEngine()
 {
     populateLangMap();
     tessApi = new tesseract::TessBaseAPI();
+    setLang(Settings::defaultOcrLang);
 }
 
 OcrEngine::~OcrEngine()
@@ -38,10 +41,26 @@ OcrEngine::~OcrEngine()
     delete tessApi;
 }
 
-QStringList OcrEngine::getInstalledLangs()
+QString OcrEngine::getTessdataPath()
 {
     QString exeDirpath = QCoreApplication::applicationDirPath();
-    QDir dir(exeDirpath + QDir::separator() + "tessdata");
+    QString path;
+    if(exeDirpath.isEmpty())
+    {
+        path="tessdata";
+    }
+    else
+    {
+        path=exeDirpath+ QDir::separator() + "tessdata";
+    }
+    return path;
+}
+
+QStringList OcrEngine::getInstalledLangs()
+{
+    QString path = getTessdataPath();
+    
+    QDir dir(path );
     QStringList nameFilter("*.traineddata");
     QStringList langFiles = dir.entryList(nameFilter);
     QStringList nameList;
@@ -70,8 +89,7 @@ bool OcrEngine::isLangInstalled(QString lang)
 
 bool OcrEngine::isLangCodeInstalled(QString langCode)
 {
-    QString exeDirpath = QCoreApplication::applicationDirPath();
-    QDir dir(exeDirpath + QDir::separator() + "tessdata");
+    QDir dir(getTessdataPath());
     QStringList nameFilter("*.traineddata");
     QStringList langFiles = dir.entryList(nameFilter);
 
@@ -142,7 +160,7 @@ bool OcrEngine::setLang(QString lang)
 
     QByteArray langCodeByteArray = langCode.toLocal8Bit();
 
-    QString exeDirpath = QCoreApplication::applicationDirPath() + QDir::separator();
+    QString exeDirpath  =getTessdataPath();
 
     if (tessApi->Init(exeDirpath.toLocal8Bit().constData(), langCodeByteArray.constData()))
     {
@@ -220,6 +238,7 @@ QString OcrEngine::performOcr(PIX *pixs, bool singleTextLine)
 
     tessApi->Clear();
 
+    //with this line ,vs crash.
     delete [] outText;
 
     mutex.unlock();

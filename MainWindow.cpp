@@ -37,6 +37,7 @@ along with Capture2Text.  If not, see <http://www.gnu.org/licenses/>.
 #include "MouseHook.h"
 #include "UtilsCommon.h"
 #include "Speech.h"
+#include "qhotkey.h"
 
 
 MainWindow::MainWindow(bool portable)
@@ -148,7 +149,6 @@ void MainWindow::startCaptureBox()
         previewBox.show();
         previewBox.raise();
     }
-
     captureBox.startCaptureMode();
 }
 
@@ -333,7 +333,7 @@ void MainWindow::performForwardTextLineCapture(QPoint pt)
     }
 
     QDesktopWidget desktopWidget;
-    QRect screenRect = desktopWidget.screenGeometry(pt);
+    QRect screenRect = screen()->geometry();// desktopWidget.screenGeometry(pt);
 
     bool isVertical = false;
 
@@ -674,17 +674,137 @@ void MainWindow::showSettingsDialog()
 
 void MainWindow::registerHotkeys()
 {
-    KeyboardHook::getInstance().addHotkey(CAPTURE_BOX, Hotkey(Settings::getHotkeyCaptureBox()));
-    KeyboardHook::getInstance().addHotkey(RE_CAPTURE_LAST, Hotkey(Settings::getHotkeyReCaptureLast()));
-    KeyboardHook::getInstance().addHotkey(TEXTLINE_CAPTURE, Hotkey(Settings::getHotkeyTextLineCapture()));
-    KeyboardHook::getInstance().addHotkey(FORWARD_TEXTLINE_CAPTURE, Hotkey(Settings::getHotkeyForwardTextLineCapture()));
-    KeyboardHook::getInstance().addHotkey(BUBBLE_CAPTURE, Hotkey(Settings::getHotkeyBubbleCapture()));
-    KeyboardHook::getInstance().addHotkey(LANG_1, Hotkey(Settings::getHotkeyLang1()));
-    KeyboardHook::getInstance().addHotkey(LANG_2, Hotkey(Settings::getHotkeyLang2()));
-    KeyboardHook::getInstance().addHotkey(LANG_3, Hotkey(Settings::getHotkeyLang3()));
-    KeyboardHook::getInstance().addHotkey(TEXT_ORIENTATION, Hotkey(Settings::getHotkeyTextOrientation()));
-    KeyboardHook::getInstance().addHotkey(ENABLE_WHITELIST, Hotkey(Settings::getHotkeyWhitelist()));
-    KeyboardHook::getInstance().addHotkey(ENABLE_BLACKLIST, Hotkey(Settings::getHotkeyBlacklist()));
+  //unregister all the hotkeys
+  for (auto hotkey : hotkeys ) {
+    disconnect(hotkey);
+  }
+  hotkeys.clear();
+
+//    KeyboardHook::getInstance().addHotkey(CAPTURE_BOX, Hotkey(Settings::getHotkeyCaptureBox()));
+//    KeyboardHook::getInstance().addHotkey(RE_CAPTURE_LAST, Hotkey(Settings::getHotkeyReCaptureLast()));
+//    KeyboardHook::getInstance().addHotkey(TEXTLINE_CAPTURE, Hotkey(Settings::getHotkeyTextLineCapture()));
+//    KeyboardHook::getInstance().addHotkey(FORWARD_TEXTLINE_CAPTURE, Hotkey(Settings::getHotkeyForwardTextLineCapture()));
+//    KeyboardHook::getInstance().addHotkey(BUBBLE_CAPTURE, Hotkey(Settings::getHotkeyBubbleCapture()));
+//    KeyboardHook::getInstance().addHotkey(LANG_1, Hotkey(Settings::getHotkeyLang1()));
+//    KeyboardHook::getInstance().addHotkey(LANG_2, Hotkey(Settings::getHotkeyLang2()));
+//    KeyboardHook::getInstance().addHotkey(LANG_3, Hotkey(Settings::getHotkeyLang3()));
+//    KeyboardHook::getInstance().addHotkey(TEXT_ORIENTATION, Hotkey(Settings::getHotkeyTextOrientation()));
+//    KeyboardHook::getInstance().addHotkey(ENABLE_WHITELIST, Hotkey(Settings::getHotkeyWhitelist()));
+//    KeyboardHook::getInstance().addHotkey(ENABLE_BLACKLIST, Hotkey(Settings::getHotkeyBlacklist()));
+
+    QHotkey* cb=new QHotkey(QKeySequence(Settings::getHotkeyCaptureBox()),true,qApp);
+    cb->setRegistered(true);
+    connect(cb, &QHotkey::activated, qApp, [this](){
+      if(captureBox.isVisible())
+      {
+        endCaptureBox();
+      }
+      else
+      {
+        startCaptureBox();
+      }
+    });
+
+    QHotkey* rcl=new QHotkey(QKeySequence(Settings::getHotkeyReCaptureLast()),true,qApp);
+    connect(rcl, &QHotkey::activated, qApp, [this](){
+     endCaptureBox();
+    });
+
+    QHotkey* tlc=new QHotkey(QKeySequence(Settings::getHotkeyTextLineCapture()),true,qApp);
+    connect(tlc, &QHotkey::activated, qApp, [this](){
+      performTextLineCapture(QCursor::pos());
+    });
+
+    QHotkey* ftlc=new QHotkey(QKeySequence(Settings::getHotkeyForwardTextLineCapture()),true,qApp);
+    connect(ftlc, &QHotkey::activated, qApp, [this](){
+       performForwardTextLineCapture(QCursor::pos());
+    });
+
+    QHotkey* bc=new QHotkey(QKeySequence(Settings::getHotkeyBubbleCapture()),true,qApp);
+    connect(bc, &QHotkey::activated, qApp, [this](){
+      performBubbleCapture(QCursor::pos());
+    });
+
+    QHotkey* lang1=new QHotkey(QKeySequence(Settings::getHotkeyLang1()),true,qApp);
+    connect(lang1, &QHotkey::activated, qApp, [this](){
+      QString lang = Settings::getOcrQuickAccessLang1();
+
+      if(OcrEngine::isLangInstalled(lang))
+      {
+        setOcrLang(lang);
+        infoBox.showInfo(lang);
+      }
+      else
+      {
+        infoBox.showInfo(lang + " is not installed!");
+      }
+    });
+
+    QHotkey* lang2=new QHotkey(QKeySequence(Settings::getHotkeyLang2()),true,qApp);
+    connect(lang2, &QHotkey::activated, qApp, [this](){
+      QString lang = Settings::getOcrQuickAccessLang2();
+
+      if(OcrEngine::isLangInstalled(lang))
+      {
+        setOcrLang(lang);
+        infoBox.showInfo(lang);
+      }
+      else
+      {
+        infoBox.showInfo(lang + " is not installed!");
+      }
+    });
+
+
+    QHotkey* lang3=new QHotkey(QKeySequence(Settings::getHotkeyLang3()),true,qApp);
+    connect(lang3, &QHotkey::activated, qApp, [this](){
+      QString lang = Settings::getOcrQuickAccessLang3();
+
+      if(OcrEngine::isLangInstalled(lang))
+      {
+        setOcrLang(lang);
+        infoBox.showInfo(lang);
+      }
+      else
+      {
+        infoBox.showInfo(lang + " is not installed!");
+      }
+    });
+
+    QHotkey* to=new QHotkey(QKeySequence(Settings::getHotkeyTextOrientation()),true,qApp);
+    connect(to, &QHotkey::activated, qApp, [this](){
+      if(Settings::getOcrTextOrientation() == "Auto")
+      {
+        Settings::setOcrTextOrientation("Horizontal");
+      }
+      else if(Settings::getOcrTextOrientation() == "Horizontal")
+      {
+        Settings::setOcrTextOrientation("Vertical");
+      }
+      else
+      {
+        Settings::setOcrTextOrientation("Auto");
+      }
+
+      checkCurrentTextOrientationInMenu();
+      infoBox.showInfo(Settings::getOcrTextOrientation());
+    });
+
+    QHotkey* wl=new QHotkey(QKeySequence(Settings::getHotkeyWhitelist()),true,qApp);
+    connect(wl, &QHotkey::activated, qApp, [this](){
+      bool enabled = !Settings::getOcrEnableWhitelist();
+      Settings::setOcrEnableWhitelist(enabled);
+      infoBox.showInfo(enabled ? "Whitelist Enabled": "Whitelist Disabled");
+    });
+
+    QHotkey* bl=new QHotkey(QKeySequence(Settings::getHotkeyBlacklist()),true,qApp);
+    connect(bl, &QHotkey::activated, qApp, [this](){
+      bool enabled = !Settings::getOcrEnableBlacklist();
+      Settings::setOcrEnableBlacklist(enabled);
+      infoBox.showInfo(enabled ? "Blacklist Enabled": "Blacklist Disabled");
+    });
+
+    hotkeys<<cb<<rcl<<tlc<<ftlc<<bc<<lang1<<lang2<<lang3<<to<<wl<<bl;
 }
 
 void MainWindow::settingsAccepted()
@@ -724,21 +844,20 @@ void MainWindow::selectOutputPopupFromMenu()
     Settings::setOutputShowPopup(actionShowPopupWindow->isChecked());
 }
 
-void MainWindow::setOcrLang(QString lang)
-{
-    actionGroupOcrLang->checkedAction()->setChecked(false);
+void MainWindow::setOcrLang(QString lang) {
+  auto action = actionGroupOcrLang->checkedAction();
+  if (action)
+    action->setChecked(false);
 
-    for(auto action : actionGroupOcrLang->actions())
-    {
-        if(action->text() == lang)
-        {
-            action->setChecked(true);
-            break;
-        }
+  for (auto action : actionGroupOcrLang->actions()) {
+    if (action->text() == lang) {
+      action->setChecked(true);
+      break;
     }
+  }
 
-    Settings::setOcrLang(lang);
-    QtConcurrent::run(ocrEngine, &OcrEngine::setLang, lang);
+  Settings::setOcrLang(lang);
+  QtConcurrent::run(ocrEngine, &OcrEngine::setLang, lang);
 }
 
 void MainWindow::captureBoxMoved()
@@ -909,7 +1028,8 @@ void MainWindow::outputOcrText(QString text)
 
     if((Settings::getTranslateAddToClipboard()
            || Settings::getTranslateAddToPopup()
-           || (Settings::getOutputLogFileEnable() && Settings::getOutputLogFormat().contains("${translation}")))
+           || (Settings::getOutputLogFileEnable() && Settings::getOutputLogFormat().contains("${translation}"))
+           || (Settings::getOutputCallExeEnable() && Settings::getOutputCallExe().contains("${translation}")))
         && ocrLang != "None" && translateLang != "<Do Not Translate>")
     {
         if(!translate.startTranslate(text, ocrLang, translateLang, Settings::getTranslateServerTimeout()))
@@ -963,15 +1083,22 @@ void MainWindow::outputOcrTextPhase2(QString text, QString translation)
 
     if(Settings::getOutputLogFileEnable())
     {
-        QFile logFile(Settings::getOutputLogFile());
+        UtilsCommon::writeTextFile(Settings::getOutputLogFile(),
+                                   UtilsCommon::formatLogLine(Settings::getOutputLogFormat(), text, captureTimestamp, translation, ""),
+                                   true);
+    }
 
-        if (logFile.open(QIODevice::WriteOnly | QIODevice::Append | QIODevice::Text))
+    if(Settings::getOutputCallExeEnable())
+    {
+        QString action = Settings::getOutputCallExe();
+
+        if(!action.isEmpty())
         {
-            QTextStream stream(&logFile);
-            stream.setCodec("UTF-8");
-            stream.setGenerateByteOrderMark(true);
-            stream << UtilsCommon::formatLogLine(Settings::getOutputLogFormat(), text, captureTimestamp, translation, "");
-            logFile.close();
+            action.replace("${capture}", text);
+            action.replace("${translation}", translation);
+            action.replace("${timestamp}", UtilsCommon::timestampToStr(captureTimestamp));
+
+            QProcess::startDetached(action);
         }
     }
 }
@@ -1218,5 +1345,3 @@ void MainWindow::createTrayMenu()
     trayIcon->setContextMenu(menuTrayIcon);
     trayIcon->show();
 }
-
-

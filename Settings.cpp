@@ -51,6 +51,7 @@ const double Settings::defaultOcrScaleFactor(3.5);
 const QString Settings::defaultOutputLogFile("");
 const QString Settings::defaultOutputLogFormat("${capture}${linebreak}");
 const QFont Settings::defaultOutputPopupFont("Arial", 12);
+const QString Settings::defaultOutputCallExe("");
 
 const QColor Settings::defaultPreviewBackgroundColor(10, 10, 10, 255);
 const QColor Settings::defaultPreviewBorderColor(128, 128, 128, 255);

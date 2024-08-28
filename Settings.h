@@ -213,8 +213,8 @@ public:
     static bool getOutputKeepLineBreaks() { return QSettings().value("Output/KeepLineBreaks", defaultOutputKeepLineBreaks).toBool(); }
     static void setOutputKeepLineBreaks(bool value) { QSettings().setValue("Output/KeepLineBreaks", value); }
 
-    static const bool defaultOutputClipbaord = true;
-    static bool getOutputClipboard() { return QSettings().value("Output/OutputClipboard", defaultOutputClipbaord).toBool(); }
+    static const bool defaultOutputClipboard = true;
+    static bool getOutputClipboard() { return QSettings().value("Output/OutputClipboard", defaultOutputClipboard).toBool(); }
     static void setOutputClipboard(bool value) { QSettings().setValue("Output/OutputClipboard", value); }
 
     static const QString defaultOutputLogFile;
@@ -239,6 +239,14 @@ public:
     static const bool defaultOutputShowPopup = true;
     static bool getOutputShowPopup() { return QSettings().value("Output/OutputPopup", defaultOutputShowPopup).toBool(); }
     static void setOutputShowPopup(bool value) { QSettings().setValue("Output/OutputPopup", value); }
+
+    static const bool defaultOutputCallExeEnable = false;
+    static bool getOutputCallExeEnable() { return QSettings().value("Output/CallExeEnable", defaultOutputCallExeEnable).toBool(); }
+    static void setOutputCallExeEnable(bool value) { QSettings().setValue("Output/CallExeEnable", value); }
+
+    static const QString defaultOutputCallExe;
+    static QString getOutputCallExe() { return QSettings().value("Output/CallExe", defaultOutputCallExe).toString(); }
+    static void setOutputCallExe(QString value) { QSettings().setValue("Output/CallExe", value); }
 
     static bool getOutputPopupTopmost() { return QSettings().value("Output/PopupTopmost", true).toBool(); }
     static void setOutputPopupTopmost(bool value) { QSettings().setValue("Output/PopupTopmost", value); }

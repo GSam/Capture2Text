@@ -22,8 +22,9 @@ along with Capture2Text.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <QList>
 #include <QString>
+#ifdef __WIN32
 #include <windows.h>
-
+#endif
 struct KeyNameCode
 {
     QString name;

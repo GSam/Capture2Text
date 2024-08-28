@@ -29,7 +29,7 @@ HotkeyWidget::HotkeyWidget(QWidget *parent) :
 
     QList<KeyNameCode> keyNameCode = Hotkey::getKeyNameCodes();
 
-    for(auto item : keyNameCode)
+    for(auto &item : keyNameCode)
     {
         // Don't add reserved hotkeys to list
         if(item.name != "Enter"

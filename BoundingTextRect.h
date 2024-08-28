@@ -21,7 +21,11 @@ along with Capture2Text.  If not, see <http://www.gnu.org/licenses/>.
 #define BOUNDING_TEXT_RECT_H
 
 #include <QList>
+#if defined( Q_OS_MAC )
+#include "leptonica/allheaders.h"
+#else
 #include "allheaders.h"
+#endif
 #include "PreProcessCommon.h"
 
 

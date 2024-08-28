@@ -37,6 +37,7 @@ public:
     static QString timestampToStr(QDateTime timestamp);
     static QString getAppDir(bool appendSlash);
     static QString formatLogLine(QString format, QString ocrText, QDateTime timestamp, QString translation, QString file);
+    static void writeTextFile(QString file, QString text, bool append=false);
 private:
     UtilsCommon() { }
 };

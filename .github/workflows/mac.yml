@@ -1,0 +1,93 @@
+name: mac
+concurrency: 
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+on: 
+  workflow_dispatch:
+  push:
+    branches:
+      - dev
+      - master
+
+  pull_request:
+    branches:
+      - dev
+      - master
+
+jobs:
+  build:
+    name: Build
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [macos-11.0]
+        qt_ver: [5.15.2]
+        qt_arch: [clang_64]
+    steps:
+      - name: prepare env
+        if: ${{ matrix.os == 'macos-11.0' }}
+        run: |
+          softwareupdate --all --install --force
+          sudo xcode-select --print-path
+          sudo xcode-select --switch /Library/Developer/CommandLineTools    
+      - name: Install Qt
+        uses: jurplel/install-qt-action@v2.13.0
+        with:
+          version: ${{ matrix.qt_ver }}
+          cached: 'false'
+          modules: qttexttospeech
+      - name: install thirdparty dependencies
+        run: |
+          brew reinstall tesseract
+          brew install leptonica
+          brew install pkg-config
+          brew install create-dmg
+          ls -al /usr/local/Cellar/tesseract/5.2.0
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 1
+
+      - name: build Capture2Text
+        run: |
+          qmake CONFIG+=release
+          CPATH=/usr/local/Cellar/tesseract/5.2.0/include:/usr/local/Cellar/leptonica/1.82.0_1/include make  -j`nproc` 
+      - name: Build AppImage
+        run: |
+          macdeployqt Capture2Text.app -qmldir=. -verbose=1
+          codesign --force --deep -s - Capture2Text.app
+          mkdir tmp
+          mv Capture2Text.app ./tmp
+          create-dmg --volname "Capture2Text Installer" --volicon "Capture2Text.ico" --window-pos 200 120 --window-size 800 400 --icon-size 100 --icon "Capture2Text.app" 200 190 --hide-extension "Capture2Text.app" --app-drop-link 600 185 --skip-jenkins "Capture2Text.dmg" tmp/
+      
+      - uses: actions/upload-artifact@v2
+        with:
+          name: dmg
+          path: './*.dmg*'
+      - name: Set outputs
+        id: vars
+        run: |
+          echo "::set-output name=sha_short::$(git rev-parse --short HEAD)"    
+          echo "::set-output name=release_date::$(date +'%Y%m%d')"    
+          echo "::set-output name=release_time::$(date +'%H%M%S')"  
+          echo "::set-output name=release_time_clock::$(date +'%H:%M:%S')"    
+          echo "::set-output name=appname::$(ls *.dmg*)"
+      - name: uploadRelease
+        # if: startsWith(github.event.ref, 'refs/tags/')
+        uses: svenstaro/upload-release-action@v2
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          file: Capture2Text.dmg
+          asset_name: ${{ steps.vars.outputs.appname }}
+          tag: prerelease-${{steps.vars.outputs.release_date}}
+          overwrite: true 
+          release_name: Ubuntu-Windows-${{ github.ref_name }}.${{ steps.vars.outputs.sha_short }} built on ${{steps.vars.outputs.release_date}}  ${{steps.vars.outputs.release_time_clock}}  
+          prerelease: true
+          body: |
+            release on date:      ${{steps.vars.outputs.release_date}} time: ${{steps.vars.outputs.release_time_clock}}  
+            branch:               ${{ github.ref_name }}
+            commit:               ${{ steps.vars.outputs.sha_short }} 
+            Qt version:           ${{ matrix.qt_ver }} ${{ matrix.qt_arch }}
+            Windows built with:   msvc64  Visual studio 2019
+            AppImage built with:  Ubuntu-20.04 ,latest gcc
+            
+            This is a prerelease version ,auto build by github action. use on your on risk:-)

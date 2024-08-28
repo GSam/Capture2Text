@@ -24,7 +24,9 @@ along with Capture2Text.  If not, see <http://www.gnu.org/licenses/>.
 #include <QEventLoop>
 #include <QDebug>
 #include <QMap>
+#ifdef __WIN32
 #include "Windows.h"
+#endif
 #include "Hotkey.h"
 
 class MouseHook : public QThread
@@ -41,9 +43,9 @@ public:
         static MouseHook instance;
         return instance;
     }
-
+#ifdef __WIN32
     HHOOK getHHook() const { return hHook; }
-
+#endif
     void setRightMouseButtonHeld(bool held);
     bool getRightMouseButtonHeld();
 
@@ -53,15 +55,21 @@ signals:
     void buttonPressed(int id);
 
 private:
-    HHOOK hHook;
-    bool rightMouseButtonHeld;
+#ifdef __WIN32
+  HHOOK hHook;
+#endif
+  bool rightMouseButtonHeld;
 
-    MouseHook(): hHook(nullptr), rightMouseButtonHeld(false)
-    {
-
+  MouseHook()
+      :
+#ifdef __WIN32
+        hHook(nullptr),
+#endif
+        rightMouseButtonHeld(false) {
     }
-
+#ifdef __WIN32
     static LRESULT CALLBACK hookProc(int nCode, WPARAM wParam, LPARAM lParam);
+#endif
 };
 
 #endif // MOUSEHOOK_H

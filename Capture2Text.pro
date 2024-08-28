@@ -1,11 +1,8 @@
-# Linux can only compiler the console version
-CONFIG += console
-
 QT += core
 
 !console {
     QT += gui network texttospeech
-    greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
+    QT += widgets
 }
 
 TARGET = Capture2Text
@@ -15,20 +12,37 @@ console {
 }
 
 TEMPLATE = app
+!win32{
+    PREFIX = $${PREFIX}
+    isEmpty( PREFIX ):PREFIX = $$(PREFIX)
+    isEmpty( PREFIX ):PREFIX = /usr/local
+    message(Install Prefix is: $$PREFIX)
 
+    target.path = $$PREFIX/bin/
+    INSTALLS += target 
+}
 # The following define makes your compiler emit warnings if you use
 # any feature of Qt which as been marked as deprecated (the exact warnings
 # depend on your compiler). Please consult the documentation of the
 # deprecated API in order to know how to port your code away from it.
 DEFINES += QT_DEPRECATED_WARNINGS
 
+win32{
 # Disable warning: C4305: 'initializing': truncation from 'double' to 'l_float32'
-# QMAKE_CXXFLAGS += /wd4305
+ QMAKE_CXXFLAGS += /wd4305
 
 # Disable warning: C4099: 'ETEXT_DESC': type name first seen using 'class' now seen using 'struct'
-# QMAKE_CXXFLAGS += /wd4099
+ QMAKE_CXXFLAGS += /wd4099
+
+ QMAKE_CFLAGS_DEBUG += /MD
+ QMAKE_CXXFLAGS_DEBUG += /MD
+
+ DEFINES += __WIN32
+}
+else{
 
 QMAKE_CXXFLAGS += -std=c++11
+}
 
 console {
     DEFINES += CLI_BUILD
@@ -109,43 +123,27 @@ HEADERS  += \
         WelcomeDialog.ui
 }
 
+mac{
+    QT_CONFIG -= no-pkg-config 
+    CONFIG += link_pkgconfig
 
-# Linux Paths
-INCLUDEPATH += /usr/include/tesseract/
-INCLUDEPATH += /usr/include/leptonica/
-
-# INCLUDEPATH += E:\Dev\cpp\Tess4\tesseract\api
-# INCLUDEPATH += E:\Dev\cpp\Tess4\tesseract\ccmain
-# INCLUDEPATH += E:\Dev\cpp\Tess4\tesseract\ccstruct
-# INCLUDEPATH += E:\Dev\cpp\Tess4\tesseract\ccutil
-# INCLUDEPATH += E:\Dev\cpp\Leptonica_1.74.4\src
-
-# Tesseract and Leptonica
-bits32 {
-    # 32-bit
-    win32:CONFIG(release, debug|release): LIBS += -LE:\Dev\cpp\Leptonica_1.74.4\bin\32\Release \
-        -LE:\Dev\cpp\Tess4\tesseract\build\Release \
-        -ltesseract400
-    else:win32:CONFIG(debug, debug|release): LIBS += -LE:\Dev\cpp\Leptonica_1.74.4\bin\32\Debug \
-        -LE:\Dev\cpp\Tess4\tesseract\build\Debug \
-        -ltesseract400d
-
-} else {
-    # 64-bit
-    win32:CONFIG(release, debug|release): LIBS += -LE:\Dev\cpp\Leptonica_1.74.4\bin\64\Release \
-        -LE:\Dev\cpp\Tess4\tesseract\win64\Release \
-        -ltesseract400
-    else:win32:CONFIG(debug, debug|release): LIBS += -LE:\Dev\cpp\Leptonica_1.74.4\bin\64\Debug \
-        -LE:\Dev\cpp\Tess4\tesseract\win64\Debug \
-        -ltesseract400d
+    PKGCONFIG += tesseract lept
 }
 
-
-# LIBS += -lpvt.cppan.demo.danbloomberg.leptonica-1.74.4
-# LIBS += -luser32
-
+# Linux Paths
+unix:!mac{
+INCLUDEPATH += /usr/include/tesseract/
+INCLUDEPATH += /usr/include/leptonica/
+}
+win32{
+ CONFIG += conan_basic_setup
+ include ( conanbuildinfo.pri)
+}
+# Tesseract and Leptonica
+!win32{
 LIBS += -ltesseract
 LIBS += -llept
+}
 
 !console {
     RESOURCES += \
@@ -154,3 +152,6 @@ LIBS += -llept
 
 # Needed for the icon
 RC_FILE = Capture2Text.rc
+
+
+include (QHotkey/qhotkey.pri)
